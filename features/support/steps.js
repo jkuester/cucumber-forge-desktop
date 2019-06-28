@@ -107,7 +107,28 @@ Then(/^the report (?:will contain|contains) (\d+) scenarios?$/, function (scenar
 });
 
 async function stopApp(app) {
-  await app.stop();
+  // await app.stop();
+  const self = app;
+  if (!self.isRunning()) return Promise.reject(Error('Application not running'));
+  return new Promise(function (resolve, reject) {
+    var endClient = function () {
+      setTimeout(function () {
+        self.client.end().then(function () {
+          self.chromeDriver.stop()
+          self.running = false
+          resolve(self)
+        }, reject)
+      }, self.quitTimeout)
+    }
+
+    // if (self.api.nodeIntegration) {
+      // self.client.windowByIndex(0).electron.remote.app.quit().then(endClient, reject)
+    // } else {
+      self.client.windowByIndex(0).execute(function () {
+        window.close()
+      }).then(endClient, reject)
+    // }
+  });
 }
 
 After({ timeout: 100 * 1000 }, function () {
@@ -116,9 +137,10 @@ After({ timeout: 100 * 1000 }, function () {
   this.featureFiles.forEach(filePath => fs.unlinkSync(filePath));
   this.addedDirectories.forEach(dirPath => fs.rmdirSync(dirPath));
 
+  return stopApp(this.app);
   // if (this.app && this.app.isRunning()) {
   //   // return this.app.stop();
   //   return stopApp(this.app);
   // }
-  return null;
+  // return null;
 });
