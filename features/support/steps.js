@@ -114,20 +114,20 @@ async function stopApp(app) {
     var endClient = function () {
       setTimeout(function () {
         self.client.end().then(function () {
-          // self.chromeDriver.stop()
+          self.chromeDriver.stop()
           self.running = false
           resolve(self)
         }, reject)
       }, self.quitTimeout)
     }
 
-    if (self.api.nodeIntegration) {
-      self.client.windowByIndex(0).electron.remote.app.quit().then(endClient, reject)
-    } else {
+    // if (self.api.nodeIntegration) {
+    //   self.client.windowByIndex(0).electron.remote.app.quit().then(endClient, reject)
+    // } else {
       self.client.windowByIndex(0).execute(function () {
-        window.close()
+        // window.close()
       }).then(endClient, reject)
-    }
+    // }
   });
 }
 
