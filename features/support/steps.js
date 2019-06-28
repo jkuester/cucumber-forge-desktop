@@ -116,9 +116,9 @@ After({ timeout: 100 * 1000 }, function () {
   this.featureFiles.forEach(filePath => fs.unlinkSync(filePath));
   this.addedDirectories.forEach(dirPath => fs.rmdirSync(dirPath));
 
-  if (this.app && this.app.isRunning()) {
-    // return this.app.stop();
-    return stopApp(this.app);
-  }
+  // if (this.app && this.app.isRunning()) {
+  //   // return this.app.stop();
+  //   return stopApp(this.app);
+  // }
   return null;
 });
