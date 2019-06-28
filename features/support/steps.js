@@ -29,6 +29,7 @@ Before({ timeout: 100 * 1000 }, function () {
   this.app = new spectron.Application({
     path: electronPath,
     args: [path.join(__dirname, '../../src/index.js')],
+    quitTimeout: 10,
   });
   return this.app.start();
 });
