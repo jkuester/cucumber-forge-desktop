@@ -105,6 +105,10 @@ Then(/^the report (?:will contain|contains) (\d+) scenarios?$/, function (scenar
   }));
 });
 
+async function stopApp(app) {
+  await app.stop();
+}
+
 After({ timeout: 100 * 1000 }, function () {
   // Clean up any files that got written.
   this.reportFiles.forEach(filePath => fs.unlinkSync(filePath));
@@ -112,7 +116,8 @@ After({ timeout: 100 * 1000 }, function () {
   this.addedDirectories.forEach(dirPath => fs.rmdirSync(dirPath));
 
   if (this.app && this.app.isRunning()) {
-    return this.app.stop();
+    // return this.app.stop();
+    return stopApp(this.app);
   }
   return null;
 });
