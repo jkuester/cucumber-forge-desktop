@@ -30,7 +30,7 @@ Before({ timeout: 100 * 1000 }, function () {
     path: electronPath,
     args: [path.join(__dirname, '../../src/index.js')],
     chromeDriverArgs: ['no-sandbox'],
-    startTimeout: 10000,
+    startTimeout: 50 * 1000,
     quitTimeout: 10000,
     waitTimeout: 10000,
   });
