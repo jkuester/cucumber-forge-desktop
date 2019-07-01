@@ -29,7 +29,9 @@ Before({ timeout: 100 * 1000 }, function () {
   this.app = new spectron.Application({
     path: electronPath,
     args: [path.join(__dirname, '../../src/index.js')],
-    quitTimeout: 10,
+    startTimeout: 10000,
+    quitTimeout: 10000,
+    waitTimeout: 10000,
   });
   return this.app.start();
 });
@@ -108,6 +110,8 @@ Then(/^the report (?:will contain|contains) (\d+) scenarios?$/, function (scenar
 
 async function stopApp(app) {
   // await app.stop();
+
+
   const self = app;
   if (!self.isRunning()) return Promise.reject(Error('Application not running'));
   return new Promise(function (resolve, reject) {
@@ -124,8 +128,8 @@ async function stopApp(app) {
     // if (self.api.nodeIntegration) {
     //   self.client.windowByIndex(0).electron.remote.app.quit().then(endClient, reject)
     // } else {
-      self.client.windowByIndex(0).execute(function () {
-        // window.close()
+      self.client.waitUntilWindowLoaded().windowByIndex(0).execute(function () {
+        window.close()
       }).then(endClient, reject)
     // }
   });
