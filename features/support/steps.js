@@ -29,6 +29,7 @@ Before({ timeout: 100 * 1000 }, function () {
   this.app = new spectron.Application({
     path: electronPath,
     args: [path.join(__dirname, '../../src/index.js')],
+    chromeDriverArgs: ['no-sandbox'],
     startTimeout: 10000,
     quitTimeout: 10000,
     waitTimeout: 10000,
@@ -109,30 +110,30 @@ Then(/^the report (?:will contain|contains) (\d+) scenarios?$/, function (scenar
 });
 
 async function stopApp(app) {
-  // await app.stop();
+  await app.stop();
 
 
-  const self = app;
-  if (!self.isRunning()) return Promise.reject(Error('Application not running'));
-  return new Promise(function (resolve, reject) {
-    var endClient = function () {
-      setTimeout(function () {
-        self.client.end().then(function () {
-          self.chromeDriver.stop()
-          self.running = false
-          resolve(self)
-        }, reject)
-      }, self.quitTimeout)
-    }
+  // const self = app;
+  // if (!self.isRunning()) return Promise.reject(Error('Application not running'));
+  // return new Promise(function (resolve, reject) {
+  //   var endClient = function () {
+  //     setTimeout(function () {
+  //       self.client.end().then(function () {
+  //         self.chromeDriver.stop()
+  //         self.running = false
+  //         resolve(self)
+  //       }, reject)
+  //     }, self.quitTimeout)
+  //   }
 
-    // if (self.api.nodeIntegration) {
-    //   self.client.windowByIndex(0).electron.remote.app.quit().then(endClient, reject)
-    // } else {
-      self.client.waitUntilWindowLoaded().windowByIndex(0).execute(function () {
-        window.close()
-      }).then(endClient, reject)
-    // }
-  });
+  //   // if (self.api.nodeIntegration) {
+  //   //   self.client.windowByIndex(0).electron.remote.app.quit().then(endClient, reject)
+  //   // } else {
+  //     self.client.waitUntilWindowLoaded().windowByIndex(0).execute(function () {
+  //       window.close()
+  //     }).then(endClient, reject)
+  //   // }
+  // });
 }
 
 After({ timeout: 100 * 1000 }, function () {
