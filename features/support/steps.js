@@ -29,9 +29,9 @@ Before({ timeout: 119 * 1000 }, function () {
   this.app = new spectron.Application({
     path: electronPath,
     args: [path.join(__dirname, '../../src/index.js')],
-    chromeDriverArgs: ['no-sandbox'],
+    chromeDriverArgs: ['no-sandbox', 'also-emit-success-logs'],
     startTimeout: 118 * 1000,
-    quitTimeout: 10 * 1000,
+    // quitTimeout: 10 * 1000,
     waitTimeout: 10 * 1000,
   });
   return this.app.start();
@@ -109,7 +109,7 @@ Then(/^the report (?:will contain|contains) (\d+) scenarios?$/, function (scenar
   }));
 });
 
-After({ timeout: 100 * 1000 }, function () {
+After({ timeout: 119 * 1000 }, function () {
   // Clean up any files that got written.
   this.reportFiles.forEach(filePath => fs.unlinkSync(filePath));
   this.featureFiles.forEach(filePath => fs.unlinkSync(filePath));
