@@ -42,6 +42,7 @@ async function startApp(world) {
     if (world.app.isRunning()) {
       return;
     }
+    world.app.stop();
     timeout *= 2;
     tryCount += 1;
   }
