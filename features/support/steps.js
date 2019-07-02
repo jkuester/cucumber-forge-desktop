@@ -25,12 +25,20 @@ const createDirectory = (directoryName) => {
   return dirPath;
 };
 
-async function startApp(app) {
+async function startApp(world) {
   let timeout = 5000;
   while (timeout < 80000) {
     try {
+      // eslint-disable-next-line no-param-reassign
+      world.app = new spectron.Application({
+        path: electronPath,
+        args: [path.join(__dirname, '../../src/index.js')],
+        chromeDriverArgs: ['no-sandbox'],
+        startTimeout: 118 * 1000,
+        waitTimeout: 10 * 1000,
+      });
       // eslint-disable-next-line no-await-in-loop
-      await Timeout.wrap(app.start(), timeout);
+      await Timeout.wrap(world.app.start(), timeout);
       return;
     } catch (e) {
       timeout *= 2;
@@ -40,15 +48,7 @@ async function startApp(app) {
 
 /* eslint-disable func-names */
 Before({ timeout: 119 * 1000 }, function () {
-  this.app = new spectron.Application({
-    path: electronPath,
-    args: [path.join(__dirname, '../../src/index.js')],
-    chromeDriverArgs: ['no-sandbox'],
-    startTimeout: 118 * 1000,
-    waitTimeout: 10 * 1000,
-  });
-
-  return startApp(this.app);
+  return startApp(this);
 });
 
 Before(function () {
