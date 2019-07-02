@@ -5,6 +5,7 @@ const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
 const spectron = require('spectron');
+const Timeout = require('await-timeout');
 
 const {
   Given, When, Then, After, Before,
@@ -24,17 +25,30 @@ const createDirectory = (directoryName) => {
   return dirPath;
 };
 
+async function startApp(app) {
+  let timeout = 5000;
+  while (timeout < 80000) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      await Timeout.wrap(app.start(), timeout);
+      return;
+    } catch (e) {
+      timeout *= 2;
+    }
+  }
+}
+
 /* eslint-disable func-names */
 Before({ timeout: 119 * 1000 }, function () {
   this.app = new spectron.Application({
     path: electronPath,
     args: [path.join(__dirname, '../../src/index.js')],
-    chromeDriverArgs: ['no-sandbox', 'also-emit-success-logs'],
+    chromeDriverArgs: ['no-sandbox'],
     startTimeout: 118 * 1000,
-    // quitTimeout: 10 * 1000,
     waitTimeout: 10 * 1000,
   });
-  return this.app.start();
+
+  return startApp(this.app);
 });
 
 Before(function () {
