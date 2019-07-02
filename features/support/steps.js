@@ -29,24 +29,23 @@ async function startApp(world) {
   let timeout = 7400;
   let tryCount = 1;
   while (tryCount <= 4) {
-    try {
-      // eslint-disable-next-line no-param-reassign
-      world.app = new spectron.Application({
-        path: electronPath,
-        args: [path.join(__dirname, '../../src/index.js')],
-        chromeDriverArgs: ['no-sandbox'],
-        startTimeout: 118 * 1000,
-        waitTimeout: 10 * 1000,
-      });
-      // eslint-disable-next-line no-await-in-loop
-      await Timeout.wrap(world.app.start(), timeout);
+    // eslint-disable-next-line no-param-reassign
+    world.app = new spectron.Application({
+      path: electronPath,
+      args: [path.join(__dirname, '../../src/index.js')],
+      chromeDriverArgs: ['no-sandbox'],
+      startTimeout: 118 * 1000,
+      waitTimeout: 10 * 1000,
+    });
+    // eslint-disable-next-line no-await-in-loop
+    await Timeout.wrap(world.app.start(), timeout);
+    if (world.app.isRunning()) {
       return;
-    } catch (e) {
-      timeout *= 2;
-      tryCount += 1;
     }
-    throw new Error('Could not start app after 4 tries.');
+    timeout *= 2;
+    tryCount += 1;
   }
+  throw new Error('Could not start app after 4 tries.');
 }
 
 /* eslint-disable func-names */
