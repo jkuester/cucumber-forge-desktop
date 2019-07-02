@@ -26,8 +26,9 @@ const createDirectory = (directoryName) => {
 };
 
 async function startApp(world) {
-  let timeout = 5000;
-  while (timeout < 80000) {
+  let timeout = 7400;
+  let tryCount = 1;
+  while (tryCount <= 4) {
     try {
       // eslint-disable-next-line no-param-reassign
       world.app = new spectron.Application({
@@ -42,7 +43,9 @@ async function startApp(world) {
       return;
     } catch (e) {
       timeout *= 2;
+      tryCount += 1;
     }
+    throw new Error('Could not start app after 4 tries.');
   }
 }
 
