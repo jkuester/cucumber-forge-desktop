@@ -1,14 +1,36 @@
 language: node_js
-os:
-  - windows
-  - osx
-  - linux
 node_js:
   - "lts/*"
 notifications:
   email: false
 
-before_script:
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then export DISPLAY=:99.0          ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sh -e /etc/init.d/xvfb start  ; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sleep 3                       ; fi
+install: npm ci
+# Default script phase for running tests (overridden in deploy stage)
+script:
+  - npm run lint
+  - npm test
+
+stages:
+  - name: test
+  - name: deploy
+    if: tag IS present
+
+jobs:
+  include:
+    - name: "Test on Linux"
+      stage: test
+      os: linux
+      before_script:
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - sleep 3
+    - name: "Test on OSX"
+      stage: test
+      os: osx
+    - name: "Test on Windows"
+      stage: test
+      os: windows
+    - name: "Deploy to GitHub"
+      stage: deploy
+      script: echo "Hello World"
+      #npm run publish
