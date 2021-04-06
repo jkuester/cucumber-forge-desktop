@@ -4,6 +4,7 @@ const path = require('path');
 const { remote, ipcRenderer } = require('electron');
 const Store = require('electron-store');
 const Generator = require('cucumber-forge-report-generator');
+const OverlayScrollbars = require('overlayscrollbars');
 
 const store = new Store();
 const fileEncoding = 'utf-8';
@@ -182,3 +183,7 @@ const initNavBar = () => {
 
 initNavBar();
 initSettings();
+
+document.addEventListener('DOMContentLoaded', () => {
+  OverlayScrollbars(document.querySelectorAll('body'), { });
+});
