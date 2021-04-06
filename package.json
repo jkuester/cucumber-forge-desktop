@@ -33,15 +33,15 @@
     "autoDownload": false
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.1",
-    "bootstrap": "^4.5.3",
-    "bootswatch": "^4.5.3",
-    "cucumber-forge-report-generator": "^1.4.0",
-    "electron-log": "^4.3.1",
-    "electron-simple-updater": "^2.0.9",
+    "@fortawesome/fontawesome-free": "^5.15.3",
+    "bootstrap": "^4.6.0",
+    "bootswatch": "^4.6.0",
+    "cucumber-forge-report-generator": "^1.5.0",
+    "electron-log": "^4.3.2",
+    "electron-simple-updater": "^2.0.10",
     "electron-squirrel-startup": "^1.0.0",
-    "electron-store": "^6.0.1",
-    "jquery": "^3.5.1",
+    "electron-store": "^7.0.2",
+    "jquery": "^3.6.0",
     "popper.js": "^1.16.1"
   },
   "devDependencies": {
@@ -51,14 +51,14 @@
     "@electron-forge/maker-zip": "6.0.0-beta.54",
     "@electron-forge/publisher-github": "6.0.0-beta.54",
     "await-timeout": "^1.1.1",
-    "chai": "^4.2.0",
+    "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
     "cucumber": "^6.0.5",
-    "electron": "11.1.1",
-    "eslint": "^7.17.0",
+    "electron": "12.0.2",
+    "eslint": "^7.23.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "node-abi": "^2.19.3",
-    "spectron": "^13.0.0"
+    "node-abi": "^2.21.0",
+    "spectron": "^14.0.0"
   }
 }
